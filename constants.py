@@ -29,7 +29,7 @@ VAL_CYCLES = int(TRAIN_CYCLES * 0.05)
 LEARNING_RATE = 1e-3
 
 # Style
-STYLES = ['data/baroque', 'data/classical', 'data/romantic', 'data/modern']
+STYLES = ['data/baroque', 'data/classical', 'data/jazz', 'data/ragtime', 'data/romantic']
 NUM_STYLES = len(STYLES)
 
 # Paths
