@@ -84,16 +84,14 @@ def sampler(data):
     if len(seqs) == 0:
         raise 'Insufficient training data.'
 
+    # Make the chance of a sequence being sampled proportional to its length
+    seq_len_list = list(map(lambda s: len(s), seqs))
+    total_len = sum(seq_len_list)
+    seq_prob_list = list(map(lambda s: s / total_len, seq_len_list))
+
     def sample(seq_len):
-        # Make the chance of a sequence being sampled proportional to its length
-        seq_len_list = list(map(lambda s: len(s), seqs))
-        shortest_seq_len = min(seq_len_list)
-        seq_len_list = list(map(lambda s: s // shortest_seq_len, seq_len_list))
-        seq_index_list = [[i] * s for i, s in enumerate(seq_len_list)]
-        seq_index_list = [s for y in seq_index_list for s in y]
         # Pick random sequence
-        seq_id = random.choice(seq_index_list)
-        # seq_id = random.randint(0, len(seqs) - 1)
+        seq_id = np.random.choice(len(seq_prob_list), 1, seq_prob_list)[0]
         return (
             gen_to_tensor(augment(random_subseq(seqs[seq_id], seq_len))),
             # Need to retain the tensor object. Hence slicing is used.
